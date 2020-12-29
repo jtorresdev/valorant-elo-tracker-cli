@@ -4,7 +4,7 @@ valorant-elo-tracker
 <!-- toc -->
 * [Installation](#installation)
 <!-- tocstop -->
-# Usage
+# Installation
 <!-- usage -->
 ```sh-session
 $ git clone git@github.com:jtorresdev/valorant-elo-tracker-cli.git
