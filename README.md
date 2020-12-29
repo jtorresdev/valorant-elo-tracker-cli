@@ -1,4 +1,4 @@
-valorant-elo-tracker
+Valorant elo tracker CLI
 ====================
 
 <!-- toc -->
