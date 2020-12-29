@@ -1,5 +1,10 @@
-Valorant elo tracker CLI (inspired by [ValorantStreamOverlay](https://github.com/RumbleMike/ValorantStreamOverlay))
+Valorant elo tracker CLI
 ====================
+
+inspired by [ValorantStreamOverlay](https://github.com/RumbleMike/ValorantStreamOverlay)
+
+
+
 
 <!-- toc -->
 * [Installation](#installation)
