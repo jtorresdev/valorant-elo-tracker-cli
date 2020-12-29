@@ -1,0 +1,14 @@
+{
+  "accounts": [
+    {
+      "username": "your_username",
+      "password": "your_password",
+      "region": "account_region"
+    },
+    {
+      "username": "smurf_username",
+      "password": "smurf_password",
+      "region": "account_region"
+    }
+  ]
+}

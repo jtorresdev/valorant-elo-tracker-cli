@@ -1,0 +1,50 @@
+{
+  "name": "valorant-elo-tracker",
+  "version": "0.0.0",
+  "author": "Jesus @jtorresdev",
+  "bin": {
+    "valorant-elo-tracker": "./bin/run"
+  },
+  "bugs": "https://github.com/jtorresdev/valorant-elo-tracker/issues",
+  "dependencies": {
+    "@oclif/command": "^1",
+    "@oclif/config": "^1",
+    "@oclif/plugin-help": "^3",
+    "axios": "^0.21.1",
+    "axios-cookiejar-support": "^1.0.1",
+    "cli-table3": "^0.6.0",
+    "cli-ux": "^5.5.1",
+    "colors": "^1.4.0",
+    "inquirer": "^7.3.3",
+    "tough-cookie": "^4.0.0",
+    "xdate": "^0.8.2"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1",
+    "eslint": "^5.13",
+    "eslint-config-oclif": "^3.1"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/src"
+  ],
+  "homepage": "https://github.com/jtorresdev/valorant-elo-tracker",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "oclif": {
+    "bin": "valorant-elo-tracker"
+  },
+  "repository": "jtorresdev/valorant-elo-tracker",
+  "scripts": {
+    "posttest": "eslint .",
+    "prepack": "oclif-dev readme",
+    "test": "echo NO TESTS",
+    "version": "oclif-dev readme && git add README.md"
+  }
+}
