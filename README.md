@@ -1,11 +1,12 @@
-Valorant elo tracker CLI
+Valorant elo tracker CLI (inspired by [ValorantStreamOverlay](https://github.com/RumbleMike/ValorantStreamOverlay))
 ====================
 
 <!-- toc -->
 * [Installation](#installation)
+* [Usage](#usage)
 <!-- tocstop -->
 # Installation
-<!-- usage -->
+<!-- installation -->
 ```sh-session
 $ git clone git@github.com:jtorresdev/valorant-elo-tracker-cli.git
 $ cd valorant-elo-tracker-cli
@@ -24,3 +25,13 @@ The property "region" is based on this table:
 | Europe | `eu` |
 | Asia Pacific, Japan, OCE, Africa, Australia  | `ap` |
 | Korea | `ko` |
+<!-- installationstop -->
+
+<!-- usage -->
+# Usage
+just run
+
+```sh-session
+$ valorant-elo-tracker
+```
+<!-- usagestop -->
