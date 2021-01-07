@@ -17,7 +17,7 @@ class Riot {
       {
         client_id: 'play-valorant-web-prod',
         nonce: '1',
-        redirect_uri: 'https://beta.playvalorant.com/opt_in',
+        redirect_uri: 'https://playvalorant.com/opt_in',
         response_type: 'token id_token',
         scope: 'account openid',
       })
@@ -43,7 +43,7 @@ class Riot {
       'POST',
       'https://entitlements.auth.riotgames.com/api/token/v1',
       {},
-      {authorization: `Bearer ${access_token}`},
+      { authorization: `Bearer ${access_token}` },
     )
 
     return response
@@ -54,7 +54,7 @@ class Riot {
       'POST',
       'https://auth.riotgames.com/userinfo',
       {},
-      {authorization: `Bearer ${access_token}`}
+      { authorization: `Bearer ${access_token}` }
     )
 
     return response
@@ -75,7 +75,7 @@ class Riot {
   }
 
   async request(method, url, body = {}, headers = {}) {
-    const {data} = await axios({
+    const { data } = await axios({
       url,
       jar: this.cookieJar,
       withCredentials: true,

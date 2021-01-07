@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-modules */
 /* eslint-disable node/no-unpublished-require */
 const Riot = require('./lib/riot')
-const {Command, flags} = require('@oclif/command')
+const { Command, flags } = require('@oclif/command')
 const inquirer = require('inquirer')
 const cli = require('cli-ux').default
 const accountsJSON = require('../accounts.json')
@@ -13,27 +13,34 @@ const colors = require('colors')
 class ValorantEloTrackerCommand extends Command {
   async run() {
     const riot = new Riot()
-    const getCookies = riot.getAuthorization()
+    const getCookies = await riot.getAuthorization()
 
     if (!getCookies.country) this.log('Error al obtener cookies')
 
-    const {accounts} = accountsJSON
+    const { accounts } = accountsJSON
 
-    const selected = await inquirer
-    .prompt([
-      {
-        type: 'list',
-        message: 'select account:',
-        name: 'username',
-        choices: accounts.map(({username}) => ({name: username})),
-      },
-    ])
+    let selected
+
+    if (accounts.length > 1) {
+      selected = await inquirer
+        .prompt([
+          {
+            type: 'list',
+            message: 'select account:',
+            name: 'username',
+            choices: accounts.map(({ username }) => ({ name: username })),
+          },
+        ])
+    } else {
+      selected = accounts[0]
+    }
+
 
     this.log('')
 
     cli.action.start('logging in')
 
-    const {username, password, region} = accounts.find(account => account.username === selected.username)
+    const { username, password, region } = accounts.find(account => account.username === selected.username)
 
     const login = await riot.login(username, password)
 
@@ -42,11 +49,11 @@ class ValorantEloTrackerCommand extends Command {
     cli.action.stop('connected')
     cli.action.start('getting recent matches')
 
-    const {response: {parameters: {uri}}} = login
+    const { response: { parameters: { uri } } } = login
 
     const accessToken = uri.match(/access_token=(.+?)&scope=/)[1]
 
-    const {entitlements_token: entitlementsToken} = await riot.getEntitlements(accessToken)
+    const { entitlements_token: entitlementsToken } = await riot.getEntitlements(accessToken)
 
     if (!entitlementsToken) this.log('Error al obtener entitlements')
 
@@ -60,9 +67,9 @@ class ValorantEloTrackerCommand extends Command {
 
     cli.action.stop('done')
 
-    const {Matches} = career
+    const { Matches } = career
 
-    const {maps, ranks} = constants
+    const { maps, ranks } = constants
 
     var table = new Table({
       head: ['date', 'map', 'rank', 'points'],
@@ -77,8 +84,8 @@ class ValorantEloTrackerCommand extends Command {
     let currentRank = 0
 
     const filterMatches = Matches
-    .filter(({CompetitiveMovement}) => CompetitiveMovement !== 'MOVEMENT_UNKNOWN')
-    .splice(0, 10)
+      .filter(({ CompetitiveMovement }) => CompetitiveMovement !== 'MOVEMENT_UNKNOWN')
+      .splice(0, 10)
 
     const [lastMatch] = filterMatches
 
@@ -92,20 +99,26 @@ class ValorantEloTrackerCommand extends Command {
       TierProgressAfterUpdate,
       MatchStartTime,
       CompetitiveMovement,
-      TierProgressBeforeUpdate}) => {
+      TierProgressBeforeUpdate }) => {
       const date = new XDate(MatchStartTime).toString('dd/MM/yyyy HH:mm')
 
-      const incrase = TierProgressAfterUpdate > TierProgressBeforeUpdate
+      const nochange = TierProgressAfterUpdate === TierProgressBeforeUpdate
 
       const promoted = CompetitiveMovement === 'PROMOTED'
+
+      const incrase = (TierProgressAfterUpdate > TierProgressBeforeUpdate) || promoted
+
+      const demoted = CompetitiveMovement === 'DEMOTED'
 
       const tier = ranks[Math.max(TierAfterUpdate, TierBeforeUpdate)]
 
       const map = maps[MapID]
 
-      const arrow = promoted ? '▲' : ''
+      const arrow = promoted ? '▲' : demoted ? '▼' : ''
 
-      const elo = colors[incrase ? 'green' : 'red'](`${incrase ? '+' : '-'}${TierProgressAfterUpdate} ${arrow}`)
+      const points = promoted ? 100 - TierProgressBeforeUpdate + TierProgressAfterUpdate : TierProgressAfterUpdate - TierProgressBeforeUpdate
+
+      const elo = colors[nochange ? 'white' : incrase ? 'green' : 'red'](`${incrase ? '+' : ''}${points} ${arrow}`)
 
       table.push([date, map, tier, elo])
     })
@@ -131,10 +144,10 @@ Extra documentation goes here
 
 ValorantEloTrackerCommand.flags = {
   // add --version flag to show CLI version
-  version: flags.version({char: 'v'}),
+  version: flags.version({ char: 'v' }),
   // add --help flag to show CLI version
-  help: flags.help({char: 'h'}),
-  name: flags.string({char: 'n', description: 'name to print'}),
+  help: flags.help({ char: 'h' }),
+  name: flags.string({ char: 'n', description: 'name to print' }),
 }
 
 module.exports = ValorantEloTrackerCommand
